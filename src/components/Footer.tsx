@@ -154,20 +154,20 @@ export default function Footer() {
                 <span>github.com/MANISHBISHT24</span>
               </a>
               <a
-                href="https://linkedin.com/in/manishbisht24"
+                href="https://www.linkedin.com/in/manish-bisht-911b0b381"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-zinc-950 transition-colors"
               >
                 <LinkedinIcon className="w-4 h-4 text-[#0077b5]" />
-                <span>linkedin.com/in/manishbisht24</span>
+                <span>linkedin.com/in/manish-bisht-911b0b381</span>
               </a>
               <a
-                href="mailto:manishbisht2407@gmail.com"
+                href="mailto:manishbisht12390@gmail.com"
                 className="flex items-center gap-2 hover:text-zinc-950 transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                <span>manishbisht2407@gmail.com</span>
+                <span>manishbisht12390@gmail.com</span>
               </a>
             </div>
 

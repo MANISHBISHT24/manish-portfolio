@@ -52,14 +52,21 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="flex items-center gap-4 flex-wrap mb-8"
+              className="flex items-center gap-3.5 flex-wrap mb-8"
             >
-              <span className="section-label">
-                Independent Developer · Uttarakhand, India
-              </span>
-              <span className="flex items-center gap-1.5 text-xs font-medium text-[#78866B] bg-[#EFF2ED] px-3 py-1">
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/manish.jpg"
+                  alt="Manish Bisht"
+                  className="w-10 h-10 rounded-full object-cover object-top border-2 border-[#78866B]/30 shadow-sm"
+                />
+                <span className="section-label">
+                  Manish Bisht · Uttarakhand, India
+                </span>
+              </div>
+              <span className="flex items-center gap-1.5 text-xs font-medium text-[#78866B] bg-[#EFF2ED] px-3 py-1 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#78866B] animate-pulse" />
-                Available for select projects
+                Available for freelance projects
               </span>
             </motion.div>
 
@@ -160,42 +167,84 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Browser content — mini portfolio */}
-                <div className="p-8 bg-white space-y-6">
+                {/* Browser content — real interactive showcase */}
+                <div className="p-6 bg-white space-y-4">
                   {/* Mini header */}
-                  <div className="flex items-center justify-between border-b border-[#EAEAEA] pb-4">
-                    <div className="font-editorial text-lg font-bold text-[#171717]">
-                      MB<span className="text-[#78866B]">.</span>
+                  <div className="flex items-center justify-between border-b border-[#EAEAEA] pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src="/manish.jpg"
+                        alt="Manish Bisht"
+                        className="w-7 h-7 rounded-full object-cover object-top border border-[#EAEAEA]"
+                      />
+                      <div>
+                        <div className="font-serif text-xs font-bold text-[#171717] leading-none">
+                          Manish Bisht
+                        </div>
+                        <div className="text-[10px] text-[#737373] font-mono mt-0.5">
+                          Full-Stack Dev
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex gap-3">
-                      {["Home", "Work", "Contact"].map((item) => (
-                        <div key={item} className="h-1.5 rounded-full bg-[#EAEAEA]" style={{ width: `${item.length * 6}px` }} />
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EFF2ED] text-[#78866B] font-medium">
+                      Available
+                    </span>
+                  </div>
+
+                  {/* Featured Project Showcase */}
+                  <div className="p-4 rounded-xl bg-[#F8F8F6] border border-[#EAEAEA] space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono text-[#78866B] uppercase tracking-wider font-semibold">
+                        Featured Build
+                      </span>
+                      <span className="text-[9px] px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-mono font-medium">
+                        Live System
+                      </span>
+                    </div>
+                    <h4 className="text-xs font-bold text-[#171717]">
+                      PulseCare Hospital Management Portal
+                    </h4>
+                    <p className="text-[11px] text-[#737373] leading-relaxed">
+                      Complete role-based platform with ICU tracking, appointment booking &amp; automated billing.
+                    </p>
+                    <div className="flex flex-wrap gap-1 pt-1">
+                      {["React 19", "Node.js", "Express", "Vite"].map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-[9px] font-mono px-1.5 py-0.5 bg-white border border-[#EAEAEA] text-[#737373] rounded"
+                        >
+                          {tech}
+                        </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Mini hero text */}
-                  <div className="space-y-3 py-4">
-                    <div className="h-2 w-20 bg-[#EFF2ED] rounded-full" />
-                    <div className="h-7 w-4/5 bg-[#171717] rounded-sm" />
-                    <div className="h-5 w-3/4 bg-[#EAEAEA] rounded-sm" />
-                    <div className="h-3 w-2/3 bg-[#F4F4F4] rounded-full" />
-                    <div className="h-3 w-1/2 bg-[#F4F4F4] rounded-full" />
-                    <div className="flex gap-3 pt-2">
-                      <div className="h-9 w-28 bg-[#171717] rounded-sm" />
-                      <div className="h-9 w-28 border border-[#EAEAEA] rounded-sm" />
+                  {/* Pricing & Delivery in INR */}
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="p-3 rounded-xl border border-[#EAEAEA] bg-white">
+                      <div className="text-[10px] font-mono text-[#737373]">Avg. Project</div>
+                      <div className="text-xs font-bold text-[#171717] mt-0.5 font-mono">
+                        ₹5,000 – ₹10,000
+                      </div>
+                      <div className="text-[9px] text-[#78866B] mt-0.5">Starting tier</div>
+                    </div>
+                    <div className="p-3 rounded-xl border border-[#EAEAEA] bg-white">
+                      <div className="text-[10px] font-mono text-[#737373]">Advanced Apps</div>
+                      <div className="text-xs font-bold text-[#171717] mt-0.5 font-mono">
+                        Up to ₹20,000
+                      </div>
+                      <div className="text-[9px] text-emerald-600 mt-0.5">Full custom stack</div>
                     </div>
                   </div>
 
-                  {/* Mini project cards */}
-                  <div className="border-t border-[#EAEAEA] pt-5 grid grid-cols-2 gap-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="border border-[#EAEAEA] p-3 space-y-2">
-                        <div className={`h-16 rounded-sm ${i % 2 === 0 ? "bg-[#F8F8F6]" : "bg-[#EFF2ED]"}`} />
-                        <div className="h-2 w-3/4 bg-[#EAEAEA] rounded-full" />
-                        <div className="h-2 w-1/2 bg-[#F4F4F4] rounded-full" />
-                      </div>
-                    ))}
+                  {/* Direct Contact Bar */}
+                  <div className="flex items-center justify-between pt-2 border-t border-[#EAEAEA]">
+                    <span className="text-[10px] text-[#737373] font-mono">
+                      manishbisht12390@gmail.com
+                    </span>
+                    <span className="text-[10px] font-medium text-[#78866B] flex items-center gap-1">
+                      Uttarakhand, IN
+                    </span>
                   </div>
                 </div>
               </div>

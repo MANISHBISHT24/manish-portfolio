@@ -16,10 +16,10 @@ import {
 } from "lucide-react";
 
 const budgetOptions = [
-  "< $1,000",
-  "$1,000 – $3,000",
-  "$3,000 – $5,000",
-  "$5,000+",
+  "< ₹5,000",
+  "₹5,000 – ₹10,000",
+  "₹10,000 – ₹15,000",
+  "₹15,000 – ₹20,000+",
 ];
 
 const serviceOptions = [
@@ -35,8 +35,8 @@ export default function Contact() {
     name: "",
     email: "",
     projectType: "Custom Web Application",
-    budget: "$1,000 – $3,000",
-    timeline: "1-2 months",
+    budget: "₹5,000 – ₹10,000",
+    timeline: "1-2 weeks",
     message: "",
   });
 
@@ -46,7 +46,7 @@ export default function Contact() {
   );
   const [errorMessage, setErrorMessage] = useState("");
 
-  const directEmail = "manishbisht2407@gmail.com";
+  const directEmail = "manishbisht12390@gmail.com";
 
   const handleCopyEmail = async () => {
     try {
@@ -81,7 +81,7 @@ export default function Contact() {
         name: "",
         email: "",
         projectType: "Custom Web Application",
-        budget: "$1,000 – $3,000",
+        budget: "₹5,000 – ₹10,000",
         timeline: "1-2 months",
         message: "",
       });
@@ -294,7 +294,7 @@ export default function Contact() {
                 {/* Estimated Budget */}
                 <div>
                   <label className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2.5">
-                    Estimated Budget Range (USD)
+                    Estimated Budget Range (INR / ₹)
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {budgetOptions.map((b) => (

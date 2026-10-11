@@ -49,19 +49,27 @@ export default function About() {
               should make it work beautifully.
             </h2>
 
-            {/* Portrait placeholder */}
-            <div className="relative w-full max-w-xs aspect-[3/4] border border-[#EAEAEA] bg-white overflow-hidden group">
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#A3A3A3]">
-                <div className="w-16 h-16 rounded-full border-2 border-dashed border-[#D4D4D4] flex items-center justify-center">
-                  <span className="text-xl font-bold text-[#D4D4D4]">MB</span>
+            {/* Manish's Portrait Photo */}
+            <div className="relative w-full max-w-xs aspect-[3/4] border border-[#EAEAEA] bg-[#F8F8F6] overflow-hidden rounded-2xl group shadow-sm">
+              <img
+                src="/manish.jpg"
+                alt="Manish Bisht — Freelance Full-Stack Developer"
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                <div>
+                  <p className="text-white text-sm font-semibold tracking-wide">
+                    Manish Bisht
+                  </p>
+                  <p className="text-zinc-300 text-xs font-mono">
+                    Uttarakhand, India • Full-Stack
+                  </p>
                 </div>
-                <p className="text-xs text-center px-4">
-                  Photo placeholder
-                  <br />
-                  Replace with your portrait
-                </p>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#78866B] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-mono text-[#78866B] font-medium border border-[#EAEAEA]">
+                Open for work
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#78866B]" />
             </div>
           </motion.div>
 
