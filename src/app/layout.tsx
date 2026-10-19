@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import MotionPreferenceProvider from "@/components/MotionPreferenceProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,9 +11,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://manishbisht.dev"),
-  title: "Manish Bisht — Freelance Full-Stack Developer",
+  title: "Manish Bisht — Freelance Web Developer",
   description:
-    "Freelance full-stack developer from Uttarakhand, India. I build clean, modern, and high-performance websites and web applications for businesses, startups, and ambitious ideas.",
+    "Freelance web developer in Uttarakhand, India. Portfolio and contact details for Manish Bisht.",
+  alternates: { canonical: "/" },
   keywords: [
     "freelance developer",
     "full-stack developer",
@@ -29,23 +31,23 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://manishbisht.dev",
     siteName: "Manish Bisht",
-    title: "Manish Bisht — Freelance Full-Stack Developer",
+    title: "Manish Bisht — Freelance Web Developer",
     description:
-      "I build clean, modern, and high-performance digital experiences for businesses, startups, and ambitious ideas.",
+      "Portfolio and contact details for Manish Bisht, freelance web developer in Uttarakhand, India.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Manish Bisht — Freelance Full-Stack Developer",
+        alt: "Manish Bisht — Freelance Web Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Manish Bisht — Freelance Full-Stack Developer",
+    title: "Manish Bisht — Freelance Web Developer",
     description:
-      "I build clean, modern, and high-performance digital experiences.",
+      "Portfolio and contact details for Manish Bisht, freelance web developer in India.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -71,11 +73,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <head>
-        <link rel="canonical" href="https://manishbisht.dev" />
-      </head>
       <body className="bg-white text-[#171717] antialiased">
-        {children}
+        <a className="skip-link" href="#main-content">Skip to main content</a>
+        <MotionPreferenceProvider>{children}</MotionPreferenceProvider>
       </body>
     </html>
   );

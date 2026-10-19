@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -16,122 +16,120 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      const sections = navLinks.map((l) => l.href.slice(1));
-      for (const section of sections.reverse()) {
-        const el = document.getElementById(section);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActiveSection(section);
+      for (const link of [...navLinks].reverse()) {
+        const sectionId = link.href.slice(1);
+        const section = document.getElementById(sectionId);
+        if (section && window.scrollY >= section.offsetTop - 120) {
+          setActiveSection(sectionId);
           break;
         }
       }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
       <motion.header
-        initial={{ y: -60, opacity: 0 }}
+        initial={{ y: -48, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-sm border-b border-[#EAEAEA] shadow-[0_1px_0_rgba(0,0,0,0.04)]"
-            : "bg-white border-b border-[#EAEAEA]"
-        }`}
+        transition={{ duration: 0.45 }}
+        className={`fixed left-0 right-0 top-0 z-50 border-b border-[#EAEAEA] transition-colors ${scrolled ? "bg-white/95 shadow-sm backdrop-blur-sm" : "bg-white"}`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Wordmark */}
-            <button
-              onClick={() => handleNavClick("#hero")}
-              className="group flex items-center gap-0 font-editorial text-2xl font-bold tracking-tight text-[#171717] hover:text-[#78866B] transition-colors duration-200"
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <a
+              href="#hero"
+              aria-label="Manish Bisht home"
+              onClick={closeMenu}
+              className="font-editorial text-2xl font-bold tracking-tight text-[#171717] hover:text-[#405b35]"
             >
-              MB
-              <span className="text-[#78866B] group-hover:text-[#171717] transition-colors duration-200">.</span>
-            </button>
+              MB<span className="text-[#405b35]">.</span>
+            </a>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className={`text-sm font-medium transition-colors duration-200 link-underline pb-0.5 ${
-                    activeSection === link.href.slice(1)
-                      ? "text-[#171717]"
-                      : "text-[#737373] hover:text-[#171717]"
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
+            <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
+              {navLinks.map((link) => {
+                const sectionId = link.href.slice(1);
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    aria-current={activeSection === sectionId ? "location" : undefined}
+                    className={`text-sm font-medium transition-colors ${activeSection === sectionId ? "text-[#171717]" : "text-[#666666] hover:text-[#171717]"}`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
             </nav>
 
-            {/* CTA + Mobile Toggle */}
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => handleNavClick("#contact")}
-                className="hidden md:flex items-center gap-1.5 text-sm font-medium bg-[#171717] text-white px-5 py-2 hover:bg-[#78866B] transition-colors duration-200"
+              <a
+                href="#contact"
+                className="hidden items-center gap-2 bg-[#171717] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[#405b35] md:flex"
               >
-                Let&apos;s Talk
-                <span className="text-base leading-none">↗</span>
-              </button>
-
+                Contact Manish <span aria-hidden="true">↗</span>
+              </a>
               <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden p-1.5 text-[#171717] hover:text-[#78866B] transition-colors"
-                aria-label="Toggle menu"
+                ref={menuButtonRef}
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                className="rounded-md p-2 text-[#171717] hover:bg-zinc-100 md:hidden"
+                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-navigation"
               >
-                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                {menuOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
               </button>
             </div>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
+          <motion.nav
+            id="mobile-navigation"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white border-b border-[#EAEAEA] md:hidden"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
+            className="fixed left-0 right-0 top-16 z-40 flex flex-col gap-4 border-b border-[#EAEAEA] bg-white px-6 py-6 shadow-sm md:hidden"
           >
-            <nav className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-5">
-              {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="text-left text-base font-medium text-[#171717] hover:text-[#78866B] transition-colors duration-200"
-                >
-                  {link.label}
-                </button>
-              ))}
-              <button
-                onClick={() => handleNavClick("#contact")}
-                className="mt-2 w-full text-center text-sm font-medium bg-[#171717] text-white px-5 py-3 hover:bg-[#78866B] transition-colors duration-200"
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className="rounded py-2 text-base font-medium text-[#171717] hover:text-[#405b35]"
               >
-                Let&apos;s Talk ↗
-              </button>
-            </nav>
-          </motion.div>
+                {link.label}
+              </a>
+            ))}
+          </motion.nav>
         )}
       </AnimatePresence>
     </>

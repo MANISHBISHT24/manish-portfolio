@@ -5,9 +5,9 @@
     --bg-primary: #FFFFFF;
     --bg-secondary: #F8F8F6;
     --text-primary: #171717;
-    --text-secondary: #737373;
+    --text-secondary: #666666;
     --border: #EAEAEA;
-    --accent: #78866B;
+    --accent: #556B49;
     --accent-light: #EFF2ED;
   }
 
@@ -23,6 +23,32 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  :focus-visible {
+    outline: 3px solid #324b29;
+    outline-offset: 3px;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    border-radius: 0.5rem;
+    background: #171717;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  #main-content {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     background-color: #FFFFFF;
     color: #171717;
@@ -32,7 +58,7 @@
   }
 
   ::selection {
-    background-color: #78866B;
+    background-color: #556B49;
     color: #FFFFFF;
   }
 
@@ -50,7 +76,7 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #78866B;
+    background: #556B49;
   }
 }
 
@@ -101,10 +127,25 @@
 
   /* Section label style */
   .section-label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #737373;
+    color: #666666;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

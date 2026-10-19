@@ -1,49 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Mail,
-  MapPin,
-  Clock,
-  ArrowUpRight,
-  CheckCircle2,
-  Copy,
-  Check,
-  Send,
-  Loader2,
-  AlertCircle,
-} from "lucide-react";
+import type { FormEvent } from "react";
+import { Check, CheckCircle2, Copy, Loader2, Mail, MapPin } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
-const budgetOptions = [
-  "< ₹5,000",
-  "₹5,000 – ₹10,000",
-  "₹10,000 – ₹15,000",
-  "₹15,000 – ₹20,000+",
-];
-
-const serviceOptions = [
-  "Custom Web Application",
-  "Full-Stack Development",
-  "Frontend Engineering",
-  "UI/UX Design & Prototyping",
-  "API & Database Architecture",
-];
+type ContactFormData = {
+  email: string;
+  message: string;
+  consent: boolean;
+};
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
+  const [formData, setFormData] = useState<ContactFormData>({
     email: "",
-    projectType: "Custom Web Application",
-    budget: "₹5,000 – ₹10,000",
-    timeline: "1-2 weeks",
     message: "",
+    consent: false,
   });
-
   const [copied, setCopied] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const directEmail = "manishbisht12390@gmail.com";
@@ -52,336 +27,207 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(directEmail);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      window.setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Fallback
+      setCopied(false);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setStatus("loading");
     setErrorMessage("");
 
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      const data = await response.json();
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to submit message");
+      if (!response.ok) {
+        throw new Error(data.errors?.[0]?.message || data.message || "The inquiry could not be sent.");
       }
 
       setStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        projectType: "Custom Web Application",
-        budget: "₹5,000 – ₹10,000",
-        timeline: "1-2 months",
-        message: "",
-      });
-    } catch (err: any) {
+      setFormData({ email: "", message: "", consent: false });
+    } catch (error) {
       setStatus("error");
       setErrorMessage(
-        err.message || "Something went wrong. Please try again or email directly."
+        error instanceof Error && error.message
+          ? error.message
+          : "The inquiry could not be sent. Please email Manish directly."
       );
     }
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#FBFBF9] border-t border-[#EAEAE6]">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF2ED] text-[#55634A] text-xs font-mono tracking-wider uppercase mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#55634A]" />
-            Initiate Collaboration
+    <section id="contact" className="border-t border-[#EAEAE6] bg-[#FBFBF9] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="mb-14 max-w-3xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#EFF2ED] px-3 py-1 text-xs font-mono uppercase tracking-wider text-[#405b35]">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#405b35]" />
+            Contact
           </div>
-          <h2 className="text-3xl md:text-5xl font-light text-zinc-900 tracking-tight leading-tight">
-            Have an ambitious project in mind?{" "}
-            <span className="font-serif italic font-normal text-zinc-800">
-              Let&apos;s build something exceptional.
-            </span>
+          <h2 className="text-3xl font-light leading-tight tracking-tight text-[#171717] md:text-5xl">
+            Have a project question?{" "}
+            <span className="font-serif italic font-normal text-[#171717]">Send a message.</span>
           </h2>
-          <p className="mt-4 text-base md:text-lg text-zinc-600 leading-relaxed">
-            I am currently accepting selected freelance projects, contracts, and
-            product engineering partnerships for 2026. Reach out with your vision.
+          <p className="mt-4 text-base leading-relaxed text-[#525252] md:text-lg">
+            Share only what is needed for an initial conversation. Project scope, fees, timing,
+            cancellation, and refund terms are agreed in writing before any work or payment begins.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Direct info & context */}
-          <div className="lg:col-span-5 space-y-8">
-            {/* Quick Card */}
-            <div className="p-8 rounded-2xl bg-white border border-[#EAEAE6] shadow-sm space-y-6">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-16">
+          <aside className="space-y-6 lg:col-span-5" aria-label="Contact information">
+            <div className="space-y-6 rounded-2xl border border-[#EAEAE6] bg-white p-8 shadow-sm">
               <div>
-                <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest block mb-1">
-                  Direct Inquiries
-                </span>
-                <div className="flex items-center justify-between gap-3 mt-1">
+                <p className="mb-2 text-xs font-mono uppercase tracking-widest text-[#666666]">
+                  Email
+                </p>
+                <div className="flex items-center justify-between gap-3">
                   <a
                     href={`mailto:${directEmail}`}
-                    className="text-base md:text-lg font-medium text-zinc-900 hover:text-zinc-600 transition-colors break-all"
+                    className="break-all text-base font-medium text-[#171717] underline-offset-4 hover:underline md:text-lg"
                   >
                     {directEmail}
                   </a>
                   <button
-                    onClick={handleCopyEmail}
-                    className="p-2 rounded-lg border border-zinc-200 hover:bg-zinc-50 transition-colors text-zinc-600 hover:text-zinc-900 flex-shrink-0"
-                    title="Copy email to clipboard"
                     type="button"
+                    onClick={handleCopyEmail}
+                    aria-label={copied ? "Email address copied" : "Copy email address"}
+                    className="flex-shrink-0 rounded-lg border border-zinc-500 p-3 text-[#525252] hover:bg-zinc-50"
                   >
-                    {copied ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
+                    {copied ? <Check aria-hidden="true" size={18} /> : <Copy aria-hidden="true" size={18} />}
                   </button>
                 </div>
-                {copied && (
-                  <span className="text-xs text-emerald-600 font-medium block mt-1.5">
-                    Copied to clipboard!
-                  </span>
-                )}
+                <p className="mt-2 min-h-5 text-sm text-[#525252]" aria-live="polite">
+                  {copied ? "Email address copied." : ""}
+                </p>
               </div>
 
-              <div className="pt-6 border-t border-zinc-100 space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-zinc-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
-                      Location
-                    </div>
-                    <div className="text-sm font-medium text-zinc-800">
-                      Uttarakhand, India (Remote worldwide)
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-zinc-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
-                      Timezone & Hours
-                    </div>
-                    <div className="text-sm font-medium text-zinc-800">
-                      IST (UTC +5:30) • Flexible for US, UK & APAC overlap
-                    </div>
-                  </div>
+              <div className="flex items-start gap-3 border-t border-zinc-200 pt-6">
+                <MapPin aria-hidden="true" className="mt-1 flex-shrink-0 text-[#666666]" size={18} />
+                <div>
+                  <p className="text-xs font-mono uppercase tracking-wider text-[#666666]">Location</p>
+                  <p className="mt-1 text-sm font-medium text-[#171717]">Uttarakhand, India</p>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-zinc-100">
-                <div className="flex items-center gap-2 text-xs text-zinc-600">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>
-                    Average turnaround: <strong>&lt; 24 hours response</strong>
-                  </span>
-                </div>
+              <div className="flex items-start gap-3 border-t border-zinc-200 pt-6">
+                    <Mail aria-hidden="true" className="mt-1 flex-shrink-0 text-[#666666]" size={18} />
+                <p className="text-sm leading-relaxed text-[#525252]">
+                  Do not include passwords, payment details, health information, or other sensitive
+                  data in an inquiry.
+                </p>
               </div>
             </div>
 
-            {/* What to expect card */}
-            <div className="p-8 rounded-2xl bg-white border border-[#EAEAE6] shadow-sm">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-zinc-900 mb-4 font-mono">
+            <div className="rounded-2xl border border-[#EAEAE6] bg-white p-8 shadow-sm">
+              <h3 className="mb-4 text-sm font-semibold text-[#171717]">
                 What happens next?
-              </h4>
-              <ol className="space-y-4 text-sm text-zinc-600">
-                <li className="flex items-start gap-3">
-                  <span className="font-mono text-xs font-bold text-zinc-400 mt-0.5">
-                    01
-                  </span>
-                  <span>
-                    <strong>Initial Review:</strong> I will personally evaluate your requirements, timeline, and technical viability.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="font-mono text-xs font-bold text-zinc-400 mt-0.5">
-                    02
-                  </span>
-                  <span>
-                    <strong>Discovery Call:</strong> A brief 20-minute chat or async spec alignment to lock in architectural scope.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="font-mono text-xs font-bold text-zinc-400 mt-0.5">
-                    03
-                  </span>
-                  <span>
-                    <strong>Fixed-Scope Proposal:</strong> Transparent pricing, guaranteed milestones, and delivery schedule.
-                  </span>
-                </li>
+              </h3>
+              <ol className="space-y-3 text-sm leading-relaxed text-[#525252]">
+                    <li>1. Your inquiry is sent to the email delivery service for forwarding to the contact mailbox.</li>
+                <li>2. If the project is a fit, scope and pricing can be discussed.</li>
+                <li>3. Work begins only after written project terms are agreed.</li>
               </ol>
             </div>
-          </div>
+          </aside>
 
-          {/* Right Column: Interactive Form */}
           <div className="lg:col-span-7">
-            <div className="p-8 md:p-10 rounded-2xl bg-white border border-[#EAEAE6] shadow-sm">
+            <div className="rounded-2xl border border-[#EAEAE6] bg-white p-8 shadow-sm md:p-10">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name & Email Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2"
-                    >
-                      Your Name *
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      placeholder="Jane Doe"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 bg-[#FBFBF9] text-zinc-900 placeholder:text-zinc-400 text-sm focus:outline-none focus:border-zinc-500 focus:bg-white transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2"
-                    >
-                      Work Email *
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      placeholder="jane@company.com"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 bg-[#FBFBF9] text-zinc-900 placeholder:text-zinc-400 text-sm focus:outline-none focus:border-zinc-500 focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Service Type */}
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2.5">
-                    What service are you looking for?
+                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-[#171717]">
+                    Email address <span aria-hidden="true">*</span>
                   </label>
-                  <div className="flex flex-wrap gap-2">
-                    {serviceOptions.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() =>
-                          setFormData({ ...formData, projectType: opt })
-                        }
-                        className={`text-xs px-3.5 py-2 rounded-full border transition-all ${
-                          formData.projectType === opt
-                            ? "bg-zinc-900 text-white border-zinc-900"
-                            : "bg-[#FBFBF9] text-zinc-600 border-zinc-200 hover:border-zinc-400"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Estimated Budget */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2.5">
-                    Estimated Budget Range (INR / ₹)
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {budgetOptions.map((b) => (
-                      <button
-                        key={b}
-                        type="button"
-                        onClick={() =>
-                          setFormData({ ...formData, budget: b })
-                        }
-                        className={`text-xs py-2.5 px-3 rounded-xl border font-mono text-center transition-all ${
-                          formData.budget === b
-                            ? "bg-zinc-900 text-white border-zinc-900"
-                            : "bg-[#FBFBF9] text-zinc-600 border-zinc-200 hover:border-zinc-400"
-                        }`}
-                      >
-                        {b}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Project Details */}
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-xs font-mono uppercase tracking-wider text-zinc-500 mb-2"
-                  >
-                    Project Overview & Goals *
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
                     required
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    placeholder="Briefly describe your product goals, timeline expectations, or any existing design specs/repos..."
-                    className="w-full px-4 py-3 rounded-xl border border-zinc-200 bg-[#FBFBF9] text-zinc-900 placeholder:text-zinc-400 text-sm focus:outline-none focus:border-zinc-500 focus:bg-white transition-all resize-none"
+                    maxLength={254}
+                    value={formData.email}
+                    onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-zinc-500 bg-[#FBFBF9] px-4 py-3 text-sm text-[#171717] placeholder:text-[#666666] focus:border-zinc-700 focus:bg-white"
                   />
                 </div>
 
-                {/* Submit Feedback */}
-                <AnimatePresence>
-                  {status === "error" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2"
-                    >
-                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      <span>{errorMessage}</span>
-                    </motion.div>
-                  )}
+                <div>
+                  <label htmlFor="message" className="mb-2 block text-sm font-medium text-[#171717]">
+                    Message <span aria-hidden="true">*</span>
+                  </label>
+                  <p id="message-help" className="mb-2 text-sm text-[#525252]">
+                    10 to 2,000 characters. Please share only what is needed to describe your request.
+                  </p>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    minLength={10}
+                    maxLength={2000}
+                    required
+                    aria-describedby="message-help"
+                    value={formData.message}
+                    onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                    placeholder="How can I help?"
+                    className="w-full resize-y rounded-xl border border-zinc-500 bg-[#FBFBF9] px-4 py-3 text-sm text-[#171717] placeholder:text-[#666666] focus:border-zinc-700 focus:bg-white"
+                  />
+                </div>
 
-                  {status === "success" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2"
-                    >
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600" />
-                      <span>
-                        Inquiry received successfully! I will review the details and get back to you within 24 hours.
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div className="rounded-xl border border-zinc-500 bg-[#FBFBF9] p-4">
+                  <label htmlFor="consent" className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-[#171717]">
+                    <input
+                      id="consent"
+                      name="consent"
+                      type="checkbox"
+                      required
+                      checked={formData.consent}
+                      onChange={(event) => setFormData({ ...formData, consent: event.target.checked })}
+                      className="mt-1 h-4 w-4 flex-shrink-0 accent-[#405b35]"
+                    />
+                    <span>
+                      I agree that Manish Bisht may use my email address and message, including
+                      sharing them with email service providers, to respond to this inquiry. I can
+                      withdraw consent by email. Read the{" "}
+                      <a href="/privacy" className="font-semibold text-[#405b35] underline underline-offset-4">
+                        Privacy Policy
+                      </a>
+                      . <span aria-hidden="true">*</span>
+                    </span>
+                  </label>
+                </div>
 
-                {/* Submit Button */}
+                {status === "error" && (
+                  <p role="alert" className="rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm text-rose-900">
+                    {errorMessage}
+                  </p>
+                )}
+
+                {status === "success" && (
+                  <p role="status" aria-live="polite" className="flex items-start gap-2 rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-sm text-emerald-900">
+                    <CheckCircle2 aria-hidden="true" className="mt-0.5 flex-shrink-0" size={18} />
+                    <span>Your inquiry was submitted for email delivery.</span>
+                  </p>
+                )}
+
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="w-full py-4 px-6 rounded-xl bg-zinc-900 text-white font-medium text-sm flex items-center justify-center gap-2 hover:bg-zinc-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-4 text-sm font-semibold text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === "loading" ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Submitting Inquiry...</span>
+                      <Loader2 aria-hidden="true" className="animate-spin" size={18} />
+                      Sending inquiry…
                     </>
                   ) : (
-                    <>
-                      <span>Send Project Inquiry</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </>
+                    "Send inquiry"
                   )}
                 </button>
               </form>

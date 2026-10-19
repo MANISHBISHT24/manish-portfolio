@@ -2,211 +2,152 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Code2, ExternalLink } from "lucide-react";
 
-function GithubIcon({ size = 13 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-      />
-    </svg>
-  );
-}
+import Image from "next/image";
 
 const projects = [
   {
     id: "01",
-    title: "PulseCare Hospital Management System",
+    title: "LuxuryStay",
     category: "Full-Stack Application",
-    description:
-      "A comprehensive, role-based hospital management portal for administrators, specialist physicians, and patients. Features ICU bed management, digital prescriptions, appointment booking, and billing.",
+    domain: "luxurystay-hotels.vercel.app",
+    image: "/projects/luxurystay-preview.jpg",
+    description: "LuxuryStay is a modern, full-stack hotel booking platform built with React 19 and Node.js. It combines a seamless user experience with intelligent inventory management and secure payment integrations. The platform allows users to effortlessly browse rooms, book stays, and manage their reservations, while providing hotel owners with comprehensive tools to manage their property efficiently.",
     stack: ["React 19", "Node.js", "Express.js", "JSON DB", "Vite"],
-    github: "https://github.com/MANISHBISHT24/hospital-management-system",
-    demo: "https://github.com/MANISHBISHT24/hospital-management-system",
-    color: "#EFF2ED",
-    accent: "#78866B",
-    tag: "Live Project",
+    github: "https://github.com/MANISHBISHT24/luxurystay-nextjs",
+    color: "#F2EFE9",
+    accent: "#8B7355",
     size: "large",
   },
   {
     id: "02",
-    title: "Himalayan Rider Co.",
-    category: "Business Website",
-    description:
-      "A premium e-commerce and booking platform for a motorcycle touring company in the Himalayas. Custom ride booking flows, tour packages, and responsive design.",
-    stack: ["React", "Vite", "CSS", "LocalStorage"],
-    github: "https://github.com/MANISHBISHT24",
-    demo: null,
-    color: "#F8F8F6",
-    accent: "#737373",
-    tag: "Demo Project",
+    title: "brew-and-bloom",
+    category: "Full-Stack Application",
+    domain: "brew-and-bloom.vercel.app",
+    image: "/projects/brew-and-bloom-preview.jpg",
+    description: "Brew & Bloom is a modern coffee and plant shop website that combines an engaging user experience with a robust admin dashboard. Built with React 19 and Node.js, the platform allows customers to easily browse menus, place orders, and make reservations, while providing shop owners with tools to manage products, orders, and bookings efficiently.",
+    stack: ["React 19", "Node.js", "Express.js", "JSON DB", "Vite"],
+    github: "https://github.com/MANISHBISHT24/brew-and-bloom",
+    color: "#F6F2EB",
+    accent: "#5C4033",
     size: "small",
   },
   {
     id: "03",
-    title: "Django Blog Platform",
+    title: "Luxecart",
     category: "Full-Stack Application",
-    description:
-      "A production-deployed blog platform with full CRUD, user authentication, rich text editing, and SEO optimization. Deployed on Vercel.",
-    stack: ["Django", "Python", "PostgreSQL", "HTML/CSS"],
-    github: "https://github.com/MANISHBISHT24/Django-Blog-Websites",
-    demo: "https://django-blog-websites.vercel.app",
-    color: "#F8F8F6",
-    accent: "#737373",
-    tag: "Live Project",
-    size: "small",
-  },
-  {
-    id: "04",
-    title: "Banking Application",
-    category: "Full-Stack Application",
-    description:
-      "A command-line and GUI banking application with account management, transaction history, balance tracking, and data persistence built with Python.",
-    stack: ["Python", "Tkinter", "File DB"],
-    github: "https://github.com/MANISHBISHT24/Banking_Application",
-    demo: null,
-    color: "#EFF2ED",
-    accent: "#78866B",
-    tag: "Open Source",
+    domain: "luxecart-fashion.com",
+    image: "/projects/luxecart-preview.jpg",
+    description: "Luxecart is a high-end Indian fashion store built for simplicity, elegance, and performance. It combines a modern, full-stack interface with intelligent inventory management, detailed product analytics, and secure payment integrations. The platform is designed to make online shopping effortless for users while providing comprehensive tools for store owners to manage their business with ease and precision.",
+    stack: ["Python", "Flask", "PostgreSQL", "HTML/CSS", "Bootstrap", "Tailwind CSS", "Google Gemini API", "Stripe Payment Gateway", "JWT Authentication"],
+    github: "https://github.com/MANISHBISHT24/Luxecart",
+    color: "#F4F0EB",
+    accent: "#262626",
     size: "small",
   },
 ];
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index }: { project: (typeof projects)[number]; index: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "80px 0px" });
 
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className={`group border border-[#EAEAEA] hover:border-[#D4D4D4] transition-all duration-500 overflow-hidden ${
-        project.size === "large" ? "lg:col-span-2" : ""
-      }`}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className={`group flex flex-col overflow-hidden border border-[#EAEAEA] bg-white transition-all duration-300 hover:border-[#D4D4D4] hover:shadow-xl ${project.size === "large" ? "lg:col-span-2" : ""
+        }`}
     >
-      {/* Visual area */}
+      {/* Visual Website Layout Preview with realistic browser mockup */}
       <div
-        className="relative overflow-hidden"
-        style={{ backgroundColor: project.color, minHeight: project.size === "large" ? "280px" : "200px" }}
+        className="relative isolate overflow-hidden p-4 sm:p-6 lg:p-7 transition-colors"
+        style={{ backgroundColor: project.color }}
       >
-        {/* Decorative grid */}
+        {/* Ambient subtle glow */}
         <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `linear-gradient(${project.accent}20 1px, transparent 1px), linear-gradient(90deg, ${project.accent}20 1px, transparent 1px)`,
-            backgroundSize: "32px 32px",
-          }}
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full opacity-20 blur-3xl"
+          style={{ backgroundColor: project.accent }}
         />
 
-        {/* Mini wireframe UI */}
-        <div className="absolute inset-0 flex items-center justify-center p-8">
-          <div className="w-full max-w-xs border border-white/60 bg-white shadow-lg p-4 space-y-3 transform group-hover:scale-[1.02] transition-transform duration-500">
-            <div className="flex gap-1.5 mb-2">
-              <div className="w-2 h-2 rounded-full bg-[#EAEAEA]" />
-              <div className="w-2 h-2 rounded-full bg-[#EAEAEA]" />
-              <div className="w-2 h-2 rounded-full bg-[#EAEAEA]" />
+        {/* Top card bar with Project ID and live address */}
+        <div className="relative mb-3.5 flex items-center justify-between text-xs font-semibold text-[#525252]">
+          <div className="flex items-center gap-2">
+            <span className="font-editorial text-2xl font-bold tracking-tight text-[#171717] sm:text-3xl">
+              {project.id}
+            </span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#405b35]" />
+            <span className="font-mono tracking-tight text-[#666666]">{project.domain}</span>
+          </div>
+          <span className="rounded-full border border-black/10 bg-white/80 px-2.5 py-1 text-[11px] font-medium text-[#405b35] backdrop-blur-xs">
+            {project.category}
+          </span>
+        </div>
+
+        {/* Realistic Browser Mockup Frame */}
+        <div className="relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+          {/* Browser Chrome Header */}
+          <div className="flex items-center gap-2 border-b border-black/5 bg-[#FAFAF9] px-3.5 py-2.5">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]/80" />
             </div>
-            <div className="h-3 w-3/4 bg-[#E5E5E5] rounded-full" />
-            <div className="h-2 w-full bg-[#F4F4F4] rounded-full" />
-            <div className="h-2 w-2/3 bg-[#F4F4F4] rounded-full" />
-            <div className="flex gap-2 pt-1">
-              <div className="h-7 w-20" style={{ backgroundColor: project.accent + "30" }} />
-              <div className="h-7 w-16 bg-[#F4F4F4]" />
+            <div className="mx-auto flex w-full max-w-[260px] items-center justify-center gap-1.5 rounded-md bg-white px-3 py-0.5 text-[11px] font-medium text-[#737373] shadow-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#27C93F]" />
+              <span className="truncate">https://{project.domain}</span>
             </div>
           </div>
-        </div>
 
-        {/* Tag */}
-        <div className="absolute top-4 right-4">
-          <span
-            className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1"
-            style={{ backgroundColor: project.accent + "20", color: project.accent }}
+          {/* Website Layout Screenshot */}
+          <div
+            className={`relative w-full overflow-hidden bg-[#F5F5F5] ${project.size === "large" ? "aspect-[16/9] sm:aspect-[21/10]" : "aspect-[16/10]"
+              }`}
           >
-            {project.tag}
-          </span>
-        </div>
-
-        {/* Number */}
-        <div className="absolute bottom-4 left-4">
-          <span className="font-editorial text-5xl font-bold opacity-10 text-[#171717]">
-            {project.id}
-          </span>
+            <Image
+              src={project.image}
+              alt={`${project.title} website layout design preview`}
+              fill
+              sizes={
+                project.size === "large"
+                  ? "(min-width: 1024px) 1200px, 100vw"
+                  : "(min-width: 1024px) 600px, 100vw"
+              }
+              priority={index === 0}
+              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-6 lg:p-8 bg-white">
-        <div className="flex items-start justify-between gap-4 mb-3">
-          <div>
-            <p className="section-label mb-2">{project.category}</p>
-            <h3 className="text-lg lg:text-xl font-bold text-[#171717] group-hover:text-[#78866B] transition-colors duration-300 leading-tight">
-              {project.title}
-            </h3>
-          </div>
+      <div className="flex flex-1 flex-col justify-between bg-white p-6 lg:p-8">
+        <div>
+          <p className="section-label mb-2">{project.category}</p>
+          <h3 className="mb-3 text-lg font-bold leading-tight text-[#171717] transition-colors group-hover:text-[#405b35] lg:text-xl">
+            {project.title}
+          </h3>
+          <p className="mb-5 text-sm leading-relaxed text-[#666666]">{project.description}</p>
+          <ul aria-label={`Technologies listed for ${project.title}`} className="mb-6 flex flex-wrap gap-2">
+            {project.stack.map((tech) => (
+              <li key={tech} className="border border-[#EAEAEA] px-2.5 py-1 text-xs font-medium text-[#666666]">
+                {tech}
+              </li>
+            ))}
+          </ul>
         </div>
-
-        <p className="text-sm text-[#737373] leading-relaxed mb-5">
-          {project.description}
-        </p>
-
-        {/* Stack */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.stack.map((tech) => (
-            <span
-              key={tech}
-              className="text-xs font-medium px-2.5 py-1 border border-[#EAEAEA] text-[#737373]"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Links */}
-        <div className="flex items-center gap-4 pt-4 border-t border-[#EAEAEA]">
+        <div className="border-t border-[#EAEAEA] pt-4">
           <a
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-medium text-[#737373] hover:text-[#171717] transition-colors link-underline pb-0.5"
+            aria-label={`View source repository for ${project.title} on GitHub in a new tab`}
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-[#405b35] bg-[#EFF2ED] px-4 py-2.5 text-sm font-semibold text-[#405b35] transition-colors hover:bg-[#E3E9DF]"
           >
-            <GithubIcon size={13} />
-            GitHub
+            View source on GitHub <ExternalLink aria-hidden="true" size={15} />
           </a>
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-medium text-[#737373] hover:text-[#78866B] transition-colors link-underline pb-0.5"
-            >
-              <ExternalLink size={13} />
-              Live Demo
-            </a>
-          )}
-          <div className="ml-auto">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link flex items-center gap-1 text-xs font-medium text-[#171717] hover:text-[#78866B] transition-colors"
-            >
-              View Project
-              <ArrowUpRight
-                size={13}
-                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-              />
-            </a>
-          </div>
         </div>
       </div>
     </motion.article>
@@ -215,53 +156,47 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
 export default function Work() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "60px 0px" });
 
   return (
-    <section
-      id="work"
-      ref={ref}
-      className="py-24 lg:py-32 bg-[#F8F8F6] border-t border-[#EAEAEA]"
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+    <section id="work" ref={ref} className="border-t border-[#EAEAEA] bg-[#F8F8F6] py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mb-16 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
               className="section-label mb-4"
             >
-              Selected Work
+              Selected work
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-[1.12] tracking-tight text-[#171717]"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-3xl font-bold leading-tight tracking-tight text-[#171717] lg:text-5xl"
             >
-              A few things I&apos;ve built.
+              Portfolio projects.
             </motion.h2>
           </div>
           <motion.a
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             href="https://github.com/MANISHBISHT24"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm font-medium text-[#737373] hover:text-[#171717] transition-colors link-underline pb-0.5 flex-shrink-0"
+            aria-label="View Manish Bisht’s GitHub profile in a new tab"
+            className="inline-flex flex-shrink-0 items-center gap-2 text-sm font-medium text-[#666666] underline-offset-4 hover:text-[#171717] hover:underline"
           >
-            All projects on GitHub
-            <ArrowUpRight size={14} />
+            All repositories on GitHub <ArrowUpRight aria-hidden="true" size={14} />
           </motion.a>
         </div>
 
-        {/* Projects grid */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>

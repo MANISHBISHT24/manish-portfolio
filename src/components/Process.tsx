@@ -88,17 +88,17 @@ export default function Process() {
                 >
                   {/* Step dot */}
                   <div className="absolute top-0 left-0 w-8 h-8 border border-[#EAEAEA] bg-white flex items-center justify-center">
-                    <div className="w-2 h-2 bg-[#78866B]" />
+                    <div className="w-2 h-2 bg-[#556B49]" />
                   </div>
 
                   {/* Content */}
-                  <p className="font-editorial text-xs text-[#A3A3A3] mb-2">
+                  <p className="font-editorial text-xs text-[#666666] mb-2">
                     {step.number}
                   </p>
                   <h3 className="text-base font-semibold text-[#171717] mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-xs text-[#737373] leading-relaxed">
+                  <p className="text-xs text-[#666666] leading-relaxed">
                     {step.description}
                   </p>
                 </motion.div>
@@ -122,16 +122,16 @@ export default function Process() {
               >
                 {/* Dot */}
                 <div className="absolute left-0 top-1 w-6 h-6 border border-[#EAEAEA] bg-white flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-[#78866B]" />
+                  <div className="w-1.5 h-1.5 bg-[#556B49]" />
                 </div>
 
-                <p className="font-editorial text-xs text-[#A3A3A3] mb-1">
+                <p className="font-editorial text-xs text-[#666666] mb-1">
                   {step.number}
                 </p>
                 <h3 className="text-base font-semibold text-[#171717] mb-1.5">
                   {step.title}
                 </h3>
-                <p className="text-sm text-[#737373] leading-relaxed">
+                <p className="text-sm text-[#666666] leading-relaxed">
                   {step.description}
                 </p>
               </motion.div>

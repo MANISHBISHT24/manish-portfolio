@@ -1,26 +1,19 @@
 import { z } from "zod";
 
 export const contactSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be under 100 characters"),
   email: z
     .string()
-    .email("Please provide a valid email address"),
-  projectType: z
-    .string()
-    .min(1, "Please select or describe a project type"),
-  budget: z
-    .string()
-    .optional(),
-  timeline: z
-    .string()
-    .optional(),
+    .trim()
+    .email("Please provide a valid email address")
+    .max(254, "Email address is too long"),
   message: z
     .string()
+    .trim()
     .min(10, "Message must be at least 10 characters")
     .max(2000, "Message must be under 2000 characters"),
+  consent: z.literal(true, {
+    error: "Please consent to use your email and message to respond.",
+  }),
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;

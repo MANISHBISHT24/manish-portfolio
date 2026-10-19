@@ -57,11 +57,9 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-[#737373] leading-relaxed self-end"
+            className="text-[#666666] leading-relaxed self-end"
           >
-            A focused set of tools I know well and use regularly. I believe in
-            mastering fewer technologies deeply rather than spreading thin across
-            everything.
+            Technologies listed for the portfolio projects and services on this site.
           </motion.p>
         </div>
 
@@ -88,7 +86,7 @@ export default function TechStack() {
                     }}
                     className="group flex items-center gap-3 text-sm text-[#525252] hover:text-[#171717] transition-colors cursor-default"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#78866B] flex-shrink-0 group-hover:scale-150 transition-transform" />
+                    <span className="w-1 h-1 rounded-full bg-[#556B49] flex-shrink-0 group-hover:scale-150 transition-transform" />
                     {item}
                   </motion.li>
                 ))}
@@ -102,7 +100,7 @@ export default function TechStack() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-8 text-xs text-[#A3A3A3] text-center"
+          className="mt-4 text-xs text-[#666666] text-center"
         >
           Always learning. Continuously improving.
         </motion.p>

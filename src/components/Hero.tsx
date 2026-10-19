@@ -1,272 +1,108 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown, MapPin } from "lucide-react";
+import Image from "next/image";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number = 0) => ({
+  hidden: { opacity: 0, y: 20 },
+  show: (index: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.12,
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-    },
+    transition: { delay: index * 0.1, duration: 0.55 },
   }),
 };
 
 export default function Hero() {
-  const scrollToWork = () => {
-    document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section
-      id="hero"
-      className="min-h-screen flex flex-col justify-center pt-16 relative overflow-hidden"
-    >
-      {/* Subtle background grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(#EAEAEA 1px, transparent 1px), linear-gradient(90deg, #EAEAEA 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          opacity: 0.35,
-        }}
-      />
+    <section id="hero" className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-16">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-35" style={{
+        backgroundImage: "linear-gradient(#EAEAEA 1px, transparent 1px), linear-gradient(90deg, #EAEAEA 1px, transparent 1px)",
+        backgroundSize: "64px 64px",
+      }} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full py-20 lg:py-0 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[calc(100vh-4rem)]">
-
-          {/* Left — Text */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-8 lg:py-0">
+        <div className="grid min-h-[calc(100vh-4rem)] items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="flex flex-col justify-center">
-            {/* Eyebrow + Availability */}
-            <motion.div
-              custom={0}
-              initial="hidden"
-              animate="show"
-              variants={fadeUp}
-              className="flex items-center gap-3.5 flex-wrap mb-8"
-            >
-              <div className="flex items-center gap-2.5">
-                <img
-                  src="/manish.jpg"
-                  alt="Manish Bisht"
-                  className="w-10 h-10 rounded-full object-cover object-top border-2 border-[#78866B]/30 shadow-sm"
-                />
-                <span className="section-label">
-                  Manish Bisht · Uttarakhand, India
-                </span>
-              </div>
-              <span className="flex items-center gap-1.5 text-xs font-medium text-[#78866B] bg-[#EFF2ED] px-3 py-1 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#78866B] animate-pulse" />
-                Available for freelance projects
+            <motion.div custom={0} initial="hidden" animate="show" variants={fadeUp} className="mb-8 flex flex-wrap items-center gap-3.5">
+              <span className="section-label">Manish Bisht · Uttarakhand, India</span>
+              <span className="rounded-full bg-[#EFF2ED] px-3 py-1 text-xs font-medium text-[#405b35]">
+                Freelance web developer
               </span>
             </motion.div>
 
-            {/* Main Heading */}
             <motion.h1
               custom={1}
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-[2.6rem] sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.08] tracking-tight text-[#171717] text-balance mb-6"
+              className="mb-6 text-balance text-4xl font-bold leading-[1.08] tracking-tight text-[#171717] sm:text-5xl lg:text-6xl xl:text-7xl"
             >
-              Building digital{" "}
-              <br className="hidden sm:block" />
-              experiences{" "}
-              <em className="font-editorial font-normal not-italic text-[#78866B]">
-                with clarity
-              </em>
-              <br className="hidden sm:block" />
-              {" "}and purpose.
+              Your business deserves more than just a website.{" "}
+              <em className="font-editorial font-normal not-italic text-[#405b35]">It deserves an online presence.</em>
             </motion.h1>
 
-            {/* Description */}
             <motion.p
               custom={2}
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-base lg:text-lg text-[#737373] leading-relaxed max-w-lg mb-10"
+              className="mb-10 max-w-lg text-base leading-relaxed text-[#666666] lg:text-lg"
             >
-              I&apos;m a freelance full-stack developer helping businesses turn
-              ideas into thoughtfully designed, reliable, and high-performance
-              websites and web applications.
+              I&apos; design, build, and maintain modern, professional websites for businesses and individuals. 
             </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              custom={3}
-              initial="hidden"
-              animate="show"
-              variants={fadeUp}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
-            >
-              <button
-                onClick={scrollToContact}
-                className="group flex items-center gap-2 bg-[#171717] text-white text-sm font-medium px-7 py-3.5 hover:bg-[#78866B] transition-colors duration-300"
-              >
-                Start a Project
-                <ArrowUpRight
-                  size={15}
-                  className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                />
-              </button>
-              <button
-                onClick={scrollToWork}
-                className="group flex items-center gap-2 text-sm font-medium text-[#737373] hover:text-[#171717] transition-colors duration-200 pb-0.5 border-b border-[#EAEAEA] hover:border-[#171717]"
-              >
-                Explore Selected Work
-                <ChevronDown
-                  size={14}
-                  className="group-hover:translate-y-0.5 transition-transform"
-                />
-              </button>
+            <motion.div custom={3} initial="hidden" animate="show" variants={fadeUp} className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <a href="#contact" className="group inline-flex items-center gap-2 bg-[#171717] px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#405b35]">
+                Contact Manish <ArrowUpRight aria-hidden="true" size={16} />
+              </a>
+              <a href="#work" className="group inline-flex items-center gap-2 border-b border-[#D4D4D4] pb-1 text-sm font-medium text-[#525252] transition-colors hover:text-[#171717]">
+                View portfolio projects <ChevronDown aria-hidden="true" size={14} />
+              </a>
             </motion.div>
 
-            {/* Tagline */}
-            <motion.p
-              custom={4}
-              initial="hidden"
-              animate="show"
-              variants={fadeUp}
-              className="mt-12 text-xs text-[#A3A3A3] font-medium tracking-widest uppercase"
-            >
-              Thoughtfully designed. Carefully developed.
+            <motion.p custom={4} initial="hidden" animate="show" variants={fadeUp} className="mt-12 text-xs font-medium text-[#666666]">
+              Web development · Uttarakhand, India
             </motion.p>
           </div>
 
-          {/* Right — Browser Mockup */}
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
+            initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:flex justify-center items-center"
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="relative isolate hidden items-center justify-center lg:flex"
           >
-            <div className="relative w-full max-w-[480px]">
-              {/* Browser window frame */}
-              <div className="border border-[#EAEAEA] shadow-[0_24px_64px_rgba(0,0,0,0.07)] bg-white overflow-hidden">
-                {/* Browser chrome */}
-                <div className="flex items-center gap-2 px-4 py-3.5 border-b border-[#EAEAEA] bg-[#F8F8F6]">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-[#EAEAEA]" />
-                    <div className="w-3 h-3 rounded-full bg-[#EAEAEA]" />
-                    <div className="w-3 h-3 rounded-full bg-[#EAEAEA]" />
-                  </div>
-                  <div className="flex-1 ml-3">
-                    <div className="bg-white border border-[#EAEAEA] rounded-sm px-3 py-1.5 text-xs text-[#A3A3A3] font-mono">
-                      manishbisht.dev
-                    </div>
-                  </div>
-                </div>
+            <div aria-hidden="true" className="absolute -right-5 top-3 h-44 w-44 rounded-full bg-[#EFF2ED]" />
+            <div aria-hidden="true" className="absolute -bottom-5 -left-5 h-28 w-28 rounded-full border border-[#D4D4D4]" />
 
-                {/* Browser content — real interactive showcase */}
-                <div className="p-6 bg-white space-y-4">
-                  {/* Mini header */}
-                  <div className="flex items-center justify-between border-b border-[#EAEAEA] pb-3">
-                    <div className="flex items-center gap-2.5">
-                      <img
-                        src="/manish.jpg"
-                        alt="Manish Bisht"
-                        className="w-7 h-7 rounded-full object-cover object-top border border-[#EAEAEA]"
-                      />
-                      <div>
-                        <div className="font-serif text-xs font-bold text-[#171717] leading-none">
-                          Manish Bisht
-                        </div>
-                        <div className="text-[10px] text-[#737373] font-mono mt-0.5">
-                          Full-Stack Dev
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EFF2ED] text-[#78866B] font-medium">
-                      Available
+            <figure className="relative w-full max-w-[420px]">
+              <div aria-hidden="true" className="absolute inset-0 translate-x-3 translate-y-3 rotate-3 rounded-[2rem] bg-[#EFF2ED]" />
+              <div className="relative rounded-[2rem] border border-[#EAEAE6] bg-white p-3 shadow-[0_24px_64px_rgba(0,0,0,0.12)]">
+                <div className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#1D2024]">
+                  <Image
+                    src="/manish.PNG"
+                    alt="Portrait of Manish Bisht"
+                    fill
+                    sizes="(min-width: 1024px) 420px, 100vw"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-black/15" />
+                  <div className="absolute inset-x-4 top-4 flex justify-start sm:inset-x-5 sm:top-5">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/90 px-3 py-1.5 text-xs font-medium text-[#405b35] shadow-sm backdrop-blur">
+                      <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+                      Uttarakhand, India
                     </span>
                   </div>
-
-                  {/* Featured Project Showcase */}
-                  <div className="p-4 rounded-xl bg-[#F8F8F6] border border-[#EAEAEA] space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-[#78866B] uppercase tracking-wider font-semibold">
-                        Featured Build
-                      </span>
-                      <span className="text-[9px] px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-mono font-medium">
-                        Live System
-                      </span>
-                    </div>
-                    <h4 className="text-xs font-bold text-[#171717]">
-                      PulseCare Hospital Management Portal
-                    </h4>
-                    <p className="text-[11px] text-[#737373] leading-relaxed">
-                      Complete role-based platform with ICU tracking, appointment booking &amp; automated billing.
-                    </p>
-                    <div className="flex flex-wrap gap-1 pt-1">
-                      {["React 19", "Node.js", "Express", "Vite"].map((tech) => (
-                        <span
-                          key={tech}
-                          className="text-[9px] font-mono px-1.5 py-0.5 bg-white border border-[#EAEAEA] text-[#737373] rounded"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Pricing & Delivery in INR */}
-                  <div className="grid grid-cols-2 gap-2.5">
-                    <div className="p-3 rounded-xl border border-[#EAEAEA] bg-white">
-                      <div className="text-[10px] font-mono text-[#737373]">Avg. Project</div>
-                      <div className="text-xs font-bold text-[#171717] mt-0.5 font-mono">
-                        ₹5,000 – ₹10,000
-                      </div>
-                      <div className="text-[9px] text-[#78866B] mt-0.5">Starting tier</div>
-                    </div>
-                    <div className="p-3 rounded-xl border border-[#EAEAEA] bg-white">
-                      <div className="text-[10px] font-mono text-[#737373]">Advanced Apps</div>
-                      <div className="text-xs font-bold text-[#171717] mt-0.5 font-mono">
-                        Up to ₹20,000
-                      </div>
-                      <div className="text-[9px] text-emerald-600 mt-0.5">Full custom stack</div>
-                    </div>
-                  </div>
-
-                  {/* Direct Contact Bar */}
-                  <div className="flex items-center justify-between pt-2 border-t border-[#EAEAEA]">
-                    <span className="text-[10px] text-[#737373] font-mono">
-                      manishbisht12390@gmail.com
-                    </span>
-                    <span className="text-[10px] font-medium text-[#78866B] flex items-center gap-1">
-                      Uttarakhand, IN
-                    </span>
-                  </div>
+                  <figcaption className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+                    <p className="font-serif text-3xl font-medium tracking-tight text-white sm:text-4xl">Manish Bisht</p>
+                    <p className="mt-2 text-sm font-medium text-white">Freelance web developer</p>
+                  </figcaption>
                 </div>
               </div>
-
-              {/* Floating accent dot */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 border border-[#78866B]/20 rounded-full" />
-              <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#EFF2ED]" />
-            </div>
+            </figure>
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#A3A3A3]"
-      >
-        <div className="w-px h-10 bg-gradient-to-b from-transparent to-[#EAEAEA]" />
-        <span className="text-[10px] tracking-widest uppercase">Scroll</span>
-      </motion.div>
     </section>
   );
 }
